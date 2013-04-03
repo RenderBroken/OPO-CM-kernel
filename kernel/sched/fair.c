@@ -3431,6 +3431,7 @@ select_task_rq_fair(struct task_struct *p, int sd_flag, int flags)
 	int cpu = smp_processor_id();
 	int prev_cpu = task_cpu(p);
 	int new_cpu = cpu;
+	int power_cpu = -1;
 	int want_affine = 0;
 	int want_sd = 1;
 	int sync = flags & WF_SYNC;
@@ -3492,9 +3493,9 @@ select_task_rq_fair(struct task_struct *p, int sd_flag, int flags)
 		if (tmp->flags & sd_flag) {
 			sd = tmp;
 
-			new_cpu = get_cpu_for_power_policy(sd, cpu, p, &sds,
+			power_cpu = get_cpu_for_power_policy(sd, cpu, p, &sds,
 						sd_flag & SD_BALANCE_WAKE);
-			if (new_cpu != -1)
+			if (power_cpu != -1)
 				goto unlock;
 		}
 	}
@@ -3502,8 +3503,8 @@ select_task_rq_fair(struct task_struct *p, int sd_flag, int flags)
 	if (affine_sd) {
 		if (cpu == prev_cpu || wake_affine(affine_sd, p, sync))
                         prev_cpu = cpu;
-		new_cpu = get_cpu_for_power_policy(affine_sd, cpu, p, &sds, 1);
-		if (new_cpu != -1)
+		power_cpu = get_cpu_for_power_policy(affine_sd, cpu, p, &sds, 1);
+		if (power_cpu != -1)
 			goto unlock;
 
 		new_cpu = select_idle_sibling(p, prev_cpu);
@@ -3550,8 +3551,10 @@ select_task_rq_fair(struct task_struct *p, int sd_flag, int flags)
 	}
 unlock:
 	rcu_read_unlock();
+	if (power_cpu == -1)
+                return new_cpu;
 
-	return new_cpu;
+	return power_cpu;
 }
 
 /*
