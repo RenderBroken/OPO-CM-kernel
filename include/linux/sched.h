@@ -2174,6 +2174,7 @@ extern __read_mostly int sysctl_sched_yield_sleep_threshold;
 extern const unsigned int sysctl_sched_yield_sleep_duration;
 extern const int sysctl_sched_yield_sleep_threshold;
 #endif
+extern unsigned int sysctl_sched_window_stats_policy;
 
 enum sched_tunable_scaling {
 	SCHED_TUNABLESCALING_NONE,
