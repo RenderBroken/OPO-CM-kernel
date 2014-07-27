@@ -1434,13 +1434,13 @@ static int synaptics_rmi4_proc_flashlight_write(struct file *filp, const char __
 	return len;
 }
 
-static int synaptics_rmi4_proc_silent_vib_sound_enable_read(char *page, char **start, off_t off,
+static int synaptics_rmi4_proc_silent_vib_sound_read(char *page, char **start, off_t off,
 		int count, int *eof, void *data)
 {
 	return sprintf(page, "%d\n", atomic_read(&syna_rmi4_data->silent_vib_sound_enable));
 }
 
-static int synaptics_rmi4_proc_silent_vib_sound_enable_write(struct file *filp,
+static int synaptics_rmi4_proc_silent_vib_sound_write(struct file *filp,
 		const char __user *buff, unsigned long len, void *data)
 {
 	int enable;
@@ -1763,8 +1763,8 @@ static int synaptics_rmi4_init_touchpanel_proc(void)
 	// wake to put phone into silent/sound
 	proc_entry = create_proc_entry("silent_vib_sound_enable", 0664, procdir);
 	if (proc_entry) {
-		proc_entry->write_proc = synaptics_rmi4_proc_silent_vib_sound_enable_write;
-		proc_entry->read_proc = synaptics_rmi4_proc_silent_vib_sound_enable_read;
+		proc_entry->write_proc = synaptics_rmi4_proc_silent_vib_sound_write;
+		proc_entry->read_proc = synaptics_rmi4_proc_silent_vib_sound_read;
 	}
 
 	// sweep wake
@@ -2521,12 +2521,12 @@ static unsigned char synaptics_rmi4_update_gesture2(unsigned char *gesture,
 			switch (gesture[2]) {
 				case 0x01:  //UP
 					gesturemode = DownVee;
-					if (atomic_read(&syna_rmi4_data->flashlight_enable))
+					if (atomic_read(&syna_rmi4_data->silent_vib_sound_enable))
 						keyvalue = KEY_GESTURE_V_UP;
 					break;
 				case 0x02:  //DOWN
 					gesturemode = UpVee;
-					if (atomic_read(&syna_rmi4_data->silent_vib_sound_enable))
+					if (atomic_read(&syna_rmi4_data->flashlight_enable))
 						keyvalue = KEY_GESTURE_V;
 					break;
 				case 0x04:  //LEFT
