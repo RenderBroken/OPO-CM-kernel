@@ -29,6 +29,7 @@
 #include <mach/mpm.h>
 #include <mach/cpuidle.h>
 #include <mach/event_timer.h>
+#include <linux/quickwakeup.h>
 #include "pm.h"
 #include "rpm-notifier.h"
 #include "spm.h"
