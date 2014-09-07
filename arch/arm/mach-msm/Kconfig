@@ -3042,7 +3042,7 @@ config KRAIT_REGULATOR
 config MSM_HOTPLUG
 	bool "MSM hotplug driver"
 	depends on HOTPLUG_CPU
-	default n
+	default y
 	help
 	  The MSM hotplug driver controls on-/offlining of additional cores based
 	  on current cpu load.
@@ -3054,4 +3054,12 @@ config MSM_LIMITER
 	help
 	  The MSM Frequency Limiter Driver controls max frequency limit for each CPU
 	  to desired value on suspend/resume
+
+config INTELLI_HOTPLUG
+	bool "Intelli hotplug driver"
+	depends on HOTPLUG_CPU
+	default n
+	help
+	  An intelligent cpu hotplug driver for
+	  Low Latency Frequency Transition capable processors.
 endif
