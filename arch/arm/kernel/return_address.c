@@ -56,13 +56,6 @@ void *return_address(unsigned int level)
 		return NULL;
 }
 
-#else /* CONFIG_FRAME_POINTER || CONFIG_ARM_UNWIND */
-
-void *return_address(unsigned int level)
-{
-	return NULL;
-}
-
 #endif /* CONFIG_FRAME_POINTER || CONFIG_ARM_UNWIND */
 
 EXPORT_SYMBOL_GPL(return_address);
