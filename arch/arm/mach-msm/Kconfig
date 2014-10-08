@@ -3088,3 +3088,8 @@ config BRICKED_HOTPLUG
 	help
 	  This enables kernel based multi core control.
 	  (up/down hotplug based on load)
+
+config PVS_LEVEL_INTERFACE
+	bool "Expose PVS level information in sys fs (Boeffla-Kernel)"
+	help
+	 Allow PVS level to be shown in Boeffla-Config app
