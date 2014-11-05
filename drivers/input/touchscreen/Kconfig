@@ -1036,6 +1036,10 @@ config TOUCHSCREEN_SYNAPTICS_S3508_I2C_RMI
 	help
 	  This enables support for s3508 I2C RMI touchscreen devices.
 
+config TOUCHSCREEN_SWEEP2WAKE
+	bool "Enable kernel support for Sweep2Wake"
+	default n
+
 source "drivers/input/touchscreen/gt9xx/Kconfig"
 
 endif
