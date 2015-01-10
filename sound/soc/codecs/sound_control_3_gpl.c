@@ -141,6 +141,7 @@ int snd_hax_reg_access(unsigned int reg)
 	int ret = 1;
 
 	switch (reg) {
+		/* Analog Power Amp (PA) */
 		case TAIKO_A_RX_HPH_L_GAIN:
 		case TAIKO_A_RX_HPH_R_GAIN:
 		case TAIKO_A_RX_HPH_L_STATUS:
@@ -148,13 +149,16 @@ int snd_hax_reg_access(unsigned int reg)
 			if (snd_ctrl_locked > 1)
 				ret = 0;
 			break;
+		/* Digital Headphones Gain */
 		case TAIKO_A_CDC_RX1_VOL_CTL_B2_CTL:
 		case TAIKO_A_CDC_RX2_VOL_CTL_B2_CTL:
 		case TAIKO_A_CDC_RX3_VOL_CTL_B2_CTL:
 		case TAIKO_A_CDC_RX4_VOL_CTL_B2_CTL:
 		case TAIKO_A_CDC_RX5_VOL_CTL_B2_CTL:
 		case TAIKO_A_CDC_RX6_VOL_CTL_B2_CTL:
+		/* Loud Speaker Gain */
 		case TAIKO_A_CDC_RX7_VOL_CTL_B2_CTL:
+		/* Line out gain */
 		case TAIKO_A_RX_LINE_1_GAIN:
 		case TAIKO_A_RX_LINE_2_GAIN:
 		case TAIKO_A_RX_LINE_3_GAIN:
@@ -167,6 +171,7 @@ int snd_hax_reg_access(unsigned int reg)
 		case TAIKO_A_CDC_TX3_VOL_CTL_GAIN:
 		case TAIKO_A_CDC_TX4_VOL_CTL_GAIN:
 		case TAIKO_A_CDC_TX5_VOL_CTL_GAIN:
+		/* Incall MIC Gain */
 		case TAIKO_A_CDC_TX6_VOL_CTL_GAIN:
 		case TAIKO_A_CDC_TX7_VOL_CTL_GAIN:
 		case TAIKO_A_CDC_TX8_VOL_CTL_GAIN:
@@ -428,7 +433,7 @@ static struct kobj_attribute sound_reg_read_attribute =
 
 static struct kobj_attribute sound_reg_write_attribute =
 	__ATTR(sound_reg_write,
-		0222,
+		0666,
 		NULL,
 		sound_reg_write_store);
 
