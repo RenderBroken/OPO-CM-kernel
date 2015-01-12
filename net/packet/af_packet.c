@@ -1200,13 +1200,6 @@ static struct sock *fanout_demux_lb(struct packet_fanout *f, struct sk_buff *skb
 }
 
 
-static unsigned int fanout_demux_rnd(struct packet_fanout *f,
-					struct sk_buff *skb,
-					unsigned int num)
-{
-	return prandom_u32_max(num);
-}
-
 static struct sock *fanout_demux_cpu(struct packet_fanout *f, struct sk_buff *skb, unsigned int num)
 {
 	unsigned int cpu = smp_processor_id();
