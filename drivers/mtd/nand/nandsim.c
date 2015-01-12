@@ -1405,7 +1405,7 @@ int do_read_error(struct nandsim *ns, int num)
 		int i;
 		memset(ns->buf.byte, 0xFF, num);
 		for (i = 0; i < num; ++i)
-			ns->buf.byte[i] = random32();
+			ns->buf.byte[i] = prandom_u32();
 		NS_WARN("simulating read error in page %u\n", page_no);
 		return 1;
 	}
