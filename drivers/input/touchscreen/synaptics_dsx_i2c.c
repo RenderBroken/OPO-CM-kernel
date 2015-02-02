@@ -1410,7 +1410,7 @@ static int synaptics_rmi4_proc_music_write(struct file *filp, const char __user 
 static int synaptics_rmi4_proc_flashlight_read(char *page, char **start, off_t off,
 		int count, int *eof, void *data)
 {
-	return sprintf(page, "%d\n", atomic_read(&syna_rmi4_data->flashlight_enable));
+	return sprintf(page, "%d\n", atomic_read(&syna_rmi4_data->silent_vib_sound_enable));
 }
 
 static int synaptics_rmi4_proc_flashlight_write(struct file *filp, const char __user *buff,
@@ -1429,7 +1429,7 @@ static int synaptics_rmi4_proc_flashlight_write(struct file *filp, const char __
 
 	enable = (buf[0] == '0') ? 0 : 1;
 
-	atomic_set(&syna_rmi4_data->flashlight_enable, enable);
+	atomic_set(&syna_rmi4_data->silent_vib_sound_enable, enable);
 
 	return len;
 }
@@ -1726,8 +1726,8 @@ static int synaptics_rmi4_init_touchpanel_proc(void)
 		proc_entry->read_proc = synaptics_rmi4_proc_music_read;
 	}
 
-	// wake to flashlight
-	proc_entry = create_proc_entry("flashlight_enable", 0664, procdir);
+	// wake to put phone into silent/sound
+	proc_entry = create_proc_entry("silent_vib_sound_enable", 0664, procdir);
 	if (proc_entry) {
 		proc_entry->write_proc = synaptics_rmi4_proc_flashlight_write;
 		proc_entry->read_proc = synaptics_rmi4_proc_flashlight_read;
@@ -2490,7 +2490,7 @@ static unsigned char synaptics_rmi4_update_gesture2(unsigned char *gesture,
 					break;
 				case 0x02:  //DOWN
 					gesturemode = UpVee;
-					if (atomic_read(&syna_rmi4_data->flashlight_enable))
+					if (atomic_read(&syna_rmi4_data->silent_vib_sound_enable))
 						keyvalue = KEY_GESTURE_V;
 					break;
 				case 0x04:  //LEFT
@@ -4027,7 +4027,7 @@ static int synaptics_rmi4_set_input_dev(struct synaptics_rmi4_data *rmi4_data)
 	atomic_set(&rmi4_data->double_tap_enable, 1);
 	atomic_set(&rmi4_data->camera_enable, 0);
 	atomic_set(&rmi4_data->music_enable, 0);
-	atomic_set(&rmi4_data->flashlight_enable, 0);
+	atomic_set(&rmi4_data->silent_vib_sound_enable, 0);
 	atomic_set(&rmi4_data->sweep_wake_enable, 0);
 
 	rmi4_data->glove_enable = 0;
@@ -4888,7 +4888,7 @@ static int synaptics_rmi4_suspend(struct device *dev)
 			atomic_read(&rmi4_data->double_tap_enable) ||
 			atomic_read(&rmi4_data->camera_enable) ||
 			atomic_read(&rmi4_data->music_enable) ||
-			atomic_read(&rmi4_data->flashlight_enable) ||
+			atomic_read(&rmi4_data->silent_vib_sound_enable) ||
 			atomic_read(&rmi4_data->sweep_wake_enable) ? 1 : 0);
 
 	if (atomic_read(&rmi4_data->syna_use_gesture) || rmi4_data->pdoze_enable) {
@@ -4965,7 +4965,7 @@ static int synaptics_rmi4_resume(struct device *dev)
 			atomic_read(&rmi4_data->double_tap_enable) ||
 			atomic_read(&rmi4_data->camera_enable) ||
 			atomic_read(&rmi4_data->music_enable) ||
-			atomic_read(&rmi4_data->flashlight_enable) ||
+			atomic_read(&rmi4_data->silent_vib_sound_enable) ||
 			atomic_read(&rmi4_data->sweep_wake_enable) ? 1 : 0);
 		rmi4_data->pwrrunning = false;
 		return 0;
