@@ -289,6 +289,7 @@ struct synaptics_rmi4_data {
 	atomic_t double_tap_enable;
 	atomic_t camera_enable;
 	atomic_t music_enable;
+	atomic_t flashlight_enable;
 	atomic_t silent_vib_sound_enable;
 	atomic_t sweep_wake_enable;
 	unsigned char glove_enable;  //glove mode
