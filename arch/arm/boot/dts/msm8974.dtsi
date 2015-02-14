@@ -2344,7 +2344,7 @@
 		qcom,therm-reset-temp = <115>;
 		qcom,freq-step = <2>;
 		qcom,freq-control-mask = <0xf>;
-		qcom,core-limit-temp = <110>;
+		qcom,core-limit-temp = <90>;
 		qcom,core-temp-hysteresis = <5>;
 		qcom,core-control-mask = <0xe>;
 		qcom,hotplug-temp = <110>;
