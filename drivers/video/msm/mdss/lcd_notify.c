@@ -1,6 +1,6 @@
 /*
  * drivers/video/msm/mdss/lcd_notify.c
- *
+ * 
  * Copyright (C) 2013 LGE Inc
  *
  * This software is licensed under the terms of the GNU General Public
