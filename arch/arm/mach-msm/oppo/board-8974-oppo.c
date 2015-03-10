@@ -76,26 +76,6 @@ void __init msm_8974_reserve(void)
 	of_scan_flat_dt(dt_scan_for_memory_reserve, NULL);
 }
 
-#ifdef CONFIG_BRICKED_THERMAL
-static struct msm_thermal_data msm_thermal_pdata = {
-	.sensor_id = 0,
-	.poll_ms = 400,
-	.shutdown_temp = 90,
-
-	.allowed_max_high = 89,
-	.allowed_max_low = 84,
-	.allowed_max_freq = 499200,
-
-	.allowed_mid_high = 83,
-	.allowed_mid_low = 77,
-	.allowed_mid_freq = 1113600,
-
-	.allowed_low_high = 76,
-	.allowed_low_low = 70,
-	.allowed_low_freq = 1651200,
-};
-#endif
-
 /*
  * Used to satisfy dependencies for devices that need to be
  * run early or in a particular order. Most likely your device doesn't fall
@@ -117,11 +97,7 @@ void __init msm8974_add_drivers(void)
 	else
 		msm_clock_init(&msm8974_clock_init_data);
 	tsens_tm_init_driver();
-#ifdef CONFIG_BRICKED_THERMAL
-	msm_thermal_init(&msm_thermal_pdata);
-#else
- 	msm_thermal_device_init();
-#endif
+	msm_thermal_device_init();
 }
 
 #define DISP_ESD_GPIO 28
