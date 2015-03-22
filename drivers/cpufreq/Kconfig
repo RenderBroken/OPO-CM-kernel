@@ -131,6 +131,12 @@ config CPU_FREQ_DEFAULT_GOV_INTELLIACTIVE
 	  loading your cpufreq low-level hardware driver, using the
 	  'interactive' governor for latency-sensitive workloads.
 
+config CPU_FREQ_DEFAULT_GOV_SMARTMAX
+    bool "smartmax"
+    select CPU_FREQ_GOV_SMARTMAX
+	help
+      Use the CPUFreq governor 'smartmax' as default
+
 config CPU_FREQ_DEFAULT_GOV_INTELLIMM
         bool "intelliminmax"
         select CPU_FREQ_GOV_INTELLIMM
@@ -289,6 +295,12 @@ config CPU_FREQ_GOV_INTELLIMM
           For details, take a look at linux/Documentation/cpu-freq.
 
           If in doubt, say N.
+
+config CPU_FREQ_GOV_SMARTMAX
+		tristate "'smartmax' cpufreq policy governor"
+		select CPU_FREQ_TABLE
+		help
+		'smartmax' combined ondemand and smartass2
 
 config CPU_FREQ_GOV_YANKACTIVE
         tristate "'yankactive' cpufreq policy governor"
