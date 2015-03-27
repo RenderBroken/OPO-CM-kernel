@@ -50,7 +50,7 @@ VARIANT="OPO"
 
 # Functions
 function clean_all {
-		rm -rf $MODULES_DIR/*
+		rm -rf /home/renderbroken/android/source/kernel/msm8974_OPO_render_kernel/ozip/system/lib/modules/*
 		rm -rf $OZIP_DIR/boot.img
 		rm -rf arch/arm/boot/"$KERNEL"
 		echo
@@ -65,7 +65,7 @@ function make_kernel {
 }
 
 function make_modules {
-		rm $MODULES_DIR/*
+		rm -rf /home/renderbroken/android/source/kernel/msm8974_OPO_render_kernel/ozip/system/lib/modules/*
 		find $KERNEL_DIR -name "*.ko" -exec cp -v {} $MODULES_DIR \;
 }
 
