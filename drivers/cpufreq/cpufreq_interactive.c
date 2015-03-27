@@ -146,10 +146,10 @@ static void cpufreq_interactive_timer_resched(unsigned long cpu,
 
 	spin_lock_irqsave(&pcpu->load_lock, flags);
 	expires = round_to_nw_start(pcpu->last_evaluated_jiffy);
-	if (!slack_only) {
+	if (!slack_only) {	
 		pcpu->time_in_idle =
 			get_cpu_idle_time(smp_processor_id(),
-				  &pcpu->time_in_idle_timestamp, io_is_busy);
+					  &pcpu->time_in_idle_timestamp, io_is_busy);
 		pcpu->cputime_speedadj = 0;
 		pcpu->cputime_speedadj_timestamp = pcpu->time_in_idle_timestamp;
 		del_timer(&pcpu->cpu_timer);
@@ -1088,9 +1088,6 @@ static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
 
 	switch (event) {
 	case CPUFREQ_GOV_START:
-		if (!cpu_online(policy->cpu))
-			return -EINVAL;
-
 		mutex_lock(&gov_lock);
 
 		freq_table =
@@ -1169,9 +1166,12 @@ static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
 		break;
 
 	case CPUFREQ_GOV_LIMITS:
-		__cpufreq_driver_target(policy,
-				policy->cur, CPUFREQ_RELATION_L);
-
+		if (policy->max < policy->cur)
+			__cpufreq_driver_target(policy,
+					policy->max, CPUFREQ_RELATION_H);
+		else if (policy->min > policy->cur)
+			__cpufreq_driver_target(policy,
+					policy->min, CPUFREQ_RELATION_L);
 		for_each_cpu(j, policy->cpus) {
 			pcpu = &per_cpu(cpuinfo, j);
 
