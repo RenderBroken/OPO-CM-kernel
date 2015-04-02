@@ -24,7 +24,7 @@ VER=Render-Kernel
 
 # Vars
 export LOCALVERSION=~`echo $VER`
-export CROSS_COMPILE=${HOME}/android/source/toolchains/UBERTC-arm-eabi-4.9/bin/arm-eabi-
+export CROSS_COMPILE=${HOME}/android/source/toolchains/UBER-arm-eabi-4.9-cortex-a15/bin/arm-eabi-
 export ARCH=arm
 export SUBARCH=arm
 export KBUILD_BUILD_USER=RenderBroken
