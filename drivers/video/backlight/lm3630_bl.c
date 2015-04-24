@@ -31,6 +31,9 @@
 #ifdef CONFIG_MACH_OPPO
 #include <linux/boot_mode.h>
 #endif //CONFIG_MACH_OPPO
+#ifdef CONFIG_STATE_NOTIFIER
+#include <linux/state_notifier.h>
+#endif
 #ifdef CONFIG_LCD_NOTIFY
 #include <linux/lcd_notify.h>
 #endif
@@ -205,6 +208,16 @@ static int lm3630_intr_config(struct lm3630_chip_data *pchip)
 	int ret;
 	struct lm3630_chip_data *pchip = lm3630_pchip;
 	pr_debug("%s: bl=%d\n", __func__,bl_level);
+
+#ifdef CONFIG_STATE_NOTIFIER
+	// if display is switched off
+	if (!use_fb_notifier && bl_level == 0)
+		state_notifier_call_chain(STATE_NOTIFIER_SUSPEND, NULL);
+
+	// if display is switched on
+	if (!use_fb_notifier && bl_level != 0 && pre_brightness == 0)
+		state_notifier_call_chain(STATE_NOTIFIER_ACTIVE, NULL);
+#endif
 
 #ifdef CONFIG_LCD_NOTIFY
 	// LDC notifier
