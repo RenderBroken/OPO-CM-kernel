@@ -29,6 +29,7 @@
 #include <linux/slab.h>
 #include <linux/profile.h>
 #include <linux/interrupt.h>
+#include <linux/sched/sysctl.h>
 
 #include <trace/events/sched.h>
 
