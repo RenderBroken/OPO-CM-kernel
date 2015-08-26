@@ -3085,4 +3085,9 @@ config PVS_LEVEL_INTERFACE
 	help
 	 Allow PVS level to be shown
 
+config SPEED_LEVEL_INTERFACE
+        bool "Expose SPEED level information in sys fs"
+        help
+         Allow SPEED level to be shown into specific kernel apps
+
 endif
