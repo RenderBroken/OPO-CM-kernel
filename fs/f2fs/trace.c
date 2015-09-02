@@ -16,9 +16,9 @@
 #include "f2fs.h"
 #include "trace.h"
 
-RADIX_TREE(pids, GFP_ATOMIC);
+static RADIX_TREE(pids, GFP_ATOMIC);
 static spinlock_t pids_lock;
-struct last_io_info last_io;
+static struct last_io_info last_io;
 
 static inline void __print_last_io(void)
 {
@@ -80,7 +80,7 @@ out:
 	radix_tree_preload_end();
 }
 
-void f2fs_trace_ios(struct page *page, struct f2fs_io_info *fio, int flush)
+void f2fs_trace_ios(struct f2fs_io_info *fio, int flush)
 {
 	struct inode *inode;
 	pid_t pid;
@@ -91,8 +91,8 @@ void f2fs_trace_ios(struct page *page, struct f2fs_io_info *fio, int flush)
 		return;
 	}
 
-	inode = page->mapping->host;
-	pid = page_private(page);
+	inode = fio->page->mapping->host;
+	pid = page_private(fio->page);
 
 	major = MAJOR(inode->i_sb->s_dev);
 	minor = MINOR(inode->i_sb->s_dev);
